@@ -16,15 +16,7 @@ import org.json.JSONObject;
  * @author edu
  */
 public class LectorJSON {
-    
-    
-    public void iniciar(){
-        File achivo = new File("/home/edu/Descargas/archivo.json");
-        SIMBOLOS simbolos = convertirJSON(achivo);
-        simbolos.selfDescribe();
-        
-    }
-
+   
     private String leerContenido(File file) {
         String contenido = "";
         try {

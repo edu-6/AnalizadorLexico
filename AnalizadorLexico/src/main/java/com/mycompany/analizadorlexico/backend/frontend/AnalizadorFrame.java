@@ -6,10 +6,11 @@ package com.mycompany.analizadorlexico.backend.frontend;
 
 import com.mycompany.analizadorlexico.backend.GestorArchivos;
 import com.mycompany.analizadorlexico.backend.LectorDeArchivos;
+import com.mycompany.analizadorlexico.backend.LectorJSON;
+import com.mycompany.analizadorlexico.backend.SIMBOLOS;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JFileChooser;
-import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -25,6 +26,8 @@ public class AnalizadorFrame extends javax.swing.JFrame {
     //Backend
     private GestorArchivos gestorArchivos;
     private LectorDeArchivos lectorArchivos;
+    private LectorJSON lectorJson;
+    private SIMBOLOS simbolos;
     /**
      * Creates new form AnalizadorFrame
      */
@@ -34,6 +37,7 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         this.panelFondo.setLayout(new BorderLayout());
         
         //Backend
+        this.lectorJson = new LectorJSON();
         this.gestorArchivos = new GestorArchivos();
         this.lectorArchivos = new LectorDeArchivos();
         
@@ -52,8 +56,10 @@ public class AnalizadorFrame extends javax.swing.JFrame {
 
         panelFondo = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        cargarArchivo = new javax.swing.JMenu();
+        cargaJson = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,21 +73,32 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 596, Short.MAX_VALUE)
+            .addGap(0, 598, Short.MAX_VALUE)
         );
 
         jMenuBar1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jMenu1.setText("Cargar archivo");
-        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+        cargarArchivo.setText("Cargar archivo");
+        cargarArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu1MouseClicked(evt);
+                cargarArchivoMouseClicked(evt);
             }
         });
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(cargarArchivo);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        cargaJson.setText("Cargar JSON");
+        cargaJson.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cargaJsonMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(cargaJson);
+
+        jMenu3.setText("Nuevo archivo");
+        jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("Editar JSON");
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -103,7 +120,7 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+    private void cargarArchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cargarArchivoMouseClicked
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto","txt");
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(filter);
@@ -116,12 +133,28 @@ public class AnalizadorFrame extends javax.swing.JFrame {
             System.out.println("funciona");
         }
         
-    }//GEN-LAST:event_jMenu1MouseClicked
+    }//GEN-LAST:event_cargarArchivoMouseClicked
+
+    private void cargaJsonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cargaJsonMouseClicked
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos json","json");
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(filter);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        
+        int opcion = fileChooser.showDialog(this, "Cargar");
+        if(opcion == JFileChooser.APPROVE_OPTION){
+            gestorArchivos.setJsonConfigFile(fileChooser.getSelectedFile());
+            this.simbolos = this.lectorJson.convertirJSON(gestorArchivos.getJsonConfigFile());
+            this.simbolos.selfDescribe();
+        }
+    }//GEN-LAST:event_cargaJsonMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu cargaJson;
+    private javax.swing.JMenu cargarArchivo;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel panelFondo;
     // End of variables declaration//GEN-END:variables
