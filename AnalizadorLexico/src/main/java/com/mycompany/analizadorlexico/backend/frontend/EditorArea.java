@@ -116,9 +116,11 @@ public class EditorArea extends javax.swing.JPanel {
         jScrollPane2.setViewportView(jTextPane1);
 
         lineaTextPane.setBackground(new java.awt.Color(204, 255, 255));
+        lineaTextPane.setFont(new java.awt.Font("Fira Sans", 0, 24)); // NOI18N
         ScrollLIneas.setViewportView(lineaTextPane);
 
         editorTextPane.setBackground(new java.awt.Color(204, 255, 204));
+        editorTextPane.setFont(new java.awt.Font("Fira Sans", 0, 24)); // NOI18N
         editorTextPane.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 editorTextPaneCaretPositionChanged(evt);

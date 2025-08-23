@@ -104,10 +104,11 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         );
         panelFondoLayout.setVerticalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 598, Short.MAX_VALUE)
+            .addGap(0, 589, Short.MAX_VALUE)
         );
 
         jMenuBar1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jMenuBar1.setFont(new java.awt.Font("Fira Sans", 0, 24)); // NOI18N
 
         cargarArchivo.setText("Cargar archivo");
         cargarArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -134,6 +135,7 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Editar JSON");
+        jMenu4.setToolTipText("");
         jMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenu4MouseClicked(evt);

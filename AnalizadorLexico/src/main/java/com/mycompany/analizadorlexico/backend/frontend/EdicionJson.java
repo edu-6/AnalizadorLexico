@@ -61,7 +61,7 @@ public class EdicionJson extends javax.swing.JPanel {
         areadeTexto = new javax.swing.JTextArea();
 
         guardarBtn.setBackground(new java.awt.Color(102, 102, 102));
-        guardarBtn.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        guardarBtn.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         guardarBtn.setForeground(new java.awt.Color(153, 153, 255));
         guardarBtn.setText("Guardar");
         guardarBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -72,7 +72,7 @@ public class EdicionJson extends javax.swing.JPanel {
         });
 
         cancelarBtn.setBackground(new java.awt.Color(102, 102, 102));
-        cancelarBtn.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        cancelarBtn.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         cancelarBtn.setForeground(new java.awt.Color(153, 153, 255));
         cancelarBtn.setText("Cancelar");
         cancelarBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -83,12 +83,12 @@ public class EdicionJson extends javax.swing.JPanel {
         });
 
         nombreLbl.setBackground(new java.awt.Color(204, 204, 255));
-        nombreLbl.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        nombreLbl.setFont(new java.awt.Font("Liberation Sans", 1, 36)); // NOI18N
         nombreLbl.setText("    Nombre json:");
 
         areadeTexto.setBackground(new java.awt.Color(204, 255, 255));
         areadeTexto.setColumns(20);
-        areadeTexto.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+        areadeTexto.setFont(new java.awt.Font("Liberation Sans", 0, 36)); // NOI18N
         areadeTexto.setForeground(new java.awt.Color(0, 0, 0));
         areadeTexto.setRows(5);
         jScrollPane1.setViewportView(areadeTexto);
@@ -109,13 +109,13 @@ public class EdicionJson extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(guardarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(guardarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cancelarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
                 .addComponent(nombreLbl)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
