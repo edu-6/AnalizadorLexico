@@ -66,4 +66,8 @@ public class GestorArchivos {
         } catch (IOException e) {
         }
     }
+    
+    public boolean hayArchivoJson(){
+        return this.jsonConfigFile != null;
+    }
 }

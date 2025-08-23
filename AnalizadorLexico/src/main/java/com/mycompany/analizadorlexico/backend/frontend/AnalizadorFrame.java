@@ -4,13 +4,16 @@
  */
 package com.mycompany.analizadorlexico.backend.frontend;
 
+import com.mycompany.analizadorlexico.backend.EditorJsonFile;
 import com.mycompany.analizadorlexico.backend.GestorArchivos;
 import com.mycompany.analizadorlexico.backend.LectorDeArchivos;
 import com.mycompany.analizadorlexico.backend.LectorJSON;
 import com.mycompany.analizadorlexico.backend.SIMBOLOS;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -25,6 +28,7 @@ public class AnalizadorFrame extends javax.swing.JFrame {
     private ResultadosPanel resultadosPanel;
 
     //Backend
+    private EditorJsonFile editorJson;
     private GestorArchivos gestorArchivos;
     private LectorDeArchivos lectorArchivos;
     private LectorJSON lectorJson;
@@ -42,7 +46,9 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         this.lectorJson = new LectorJSON();
         this.gestorArchivos = new GestorArchivos();
         this.lectorArchivos = new LectorDeArchivos();
+        this.editorJson = new EditorJsonFile(gestorArchivos);
 
+        //Frontend
         this.editorArea = new EditorArea(gestorArchivos, lectorArchivos);
         this.panelFondo.add(editorArea, BorderLayout.CENTER);
         this.resultadosPanel = new ResultadosPanel();
@@ -51,13 +57,27 @@ public class AnalizadorFrame extends javax.swing.JFrame {
 
     private void intentarGuardarCambios() {
         if (gestorArchivos.hayCambiosSinGuardar()) {
-            int opcion = JOptionPane.showConfirmDialog(this,"¿Desea guardar los cambios?","Confirmación",JOptionPane.YES_NO_OPTION);
+            int opcion = JOptionPane.showConfirmDialog(this, "¿Desea guardar los cambios?", "Confirmación", JOptionPane.YES_NO_OPTION);
 
             if (opcion == JOptionPane.YES_OPTION) {
                 String texto = editorArea.getEditorText(); // obtener el nuevo texto
                 gestorArchivos.guardarCambiosEnArchivo(texto);
             }
         }
+    }
+
+    // esto debería ir en el backend
+    public void recargarJsonFile() {
+        this.simbolos = this.lectorJson.convertirJSON(gestorArchivos.getJsonConfigFile());
+        this.simbolos.selfDescribe();
+    }
+
+    public void volverAlPanelAnalizador() {
+        this.panelFondo.removeAll();
+        this.panelFondo.add(editorArea, BorderLayout.CENTER);
+        this.panelFondo.add(resultadosPanel, BorderLayout.SOUTH);
+        this.panelFondo.revalidate();
+        this.panelFondo.repaint();
     }
 
     @SuppressWarnings("unchecked")
@@ -70,6 +90,7 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         cargaJson = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,7 +134,13 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Editar JSON");
+        jMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu4MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu4);
+        jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
 
@@ -172,10 +199,24 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         gestorArchivos.setCurrentFile(null);
     }//GEN-LAST:event_jMenu3MouseClicked
 
+    private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
+        if (gestorArchivos.hayArchivoJson()) {
+            panelFondo.removeAll();
+            panelFondo.add(new EdicionJson(this, editorJson));
+            panelFondo.revalidate();
+            panelFondo.repaint();
+        }else{
+            JOptionPane.showMessageDialog(this, "No Hay archivo Json cargado");
+        }
+
+
+    }//GEN-LAST:event_jMenu4MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu cargaJson;
     private javax.swing.JMenu cargarArchivo;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
