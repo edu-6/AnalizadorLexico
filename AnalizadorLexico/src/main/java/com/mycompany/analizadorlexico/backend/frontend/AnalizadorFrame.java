@@ -4,9 +4,13 @@
  */
 package com.mycompany.analizadorlexico.backend.frontend;
 
+import com.mycompany.analizadorlexico.backend.GestorArchivos;
+import com.mycompany.analizadorlexico.backend.LectorDeArchivos;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -14,6 +18,13 @@ import javax.swing.JScrollPane;
  */
 public class AnalizadorFrame extends javax.swing.JFrame {
 
+    //Frontend
+    private EditorArea editorArea;
+    private ResultadosPanel resultadosPanel;
+    
+    //Backend
+    private GestorArchivos gestorArchivos;
+    private LectorDeArchivos lectorArchivos;
     /**
      * Creates new form AnalizadorFrame
      */
@@ -21,8 +32,18 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         initComponents();
         this.setPreferredSize(new Dimension(1000,780));
         this.panelFondo.setLayout(new BorderLayout());
-        this.panelFondo.add( new EditorArea(), BorderLayout.CENTER);
-        this.panelFondo.add(new ResultadosPanel(), BorderLayout.SOUTH);
+        
+        //Backend
+        this.gestorArchivos = new GestorArchivos();
+        this.lectorArchivos = new LectorDeArchivos();
+        
+        this.editorArea = new EditorArea(gestorArchivos,lectorArchivos);
+        this.panelFondo.add( editorArea, BorderLayout.CENTER);
+        this.resultadosPanel = new ResultadosPanel();
+        this.panelFondo.add(resultadosPanel, BorderLayout.SOUTH);
+        
+        
+        
         
     }
     @SuppressWarnings("unchecked")
@@ -51,7 +72,12 @@ public class AnalizadorFrame extends javax.swing.JFrame {
 
         jMenuBar1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jMenu1.setText("File");
+        jMenu1.setText("Cargar archivo");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -76,6 +102,21 @@ public class AnalizadorFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto","txt");
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(filter);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        
+        int opcion = fileChooser.showDialog(this, "Cargar");
+        if(opcion == JFileChooser.APPROVE_OPTION){
+            gestorArchivos.setCurrentFile(fileChooser.getSelectedFile());
+            editorArea.cargarTexto();
+            System.out.println("funciona");
+        }
+        
+    }//GEN-LAST:event_jMenu1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

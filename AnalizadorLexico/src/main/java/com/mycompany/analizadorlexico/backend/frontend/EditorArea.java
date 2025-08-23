@@ -4,20 +4,49 @@
  */
 package com.mycompany.analizadorlexico.backend.frontend;
 
+import com.mycompany.analizadorlexico.backend.GestorArchivos;
+import com.mycompany.analizadorlexico.backend.LectorDeArchivos;
+
 /**
  *
  * @author edu
  */
 public class EditorArea extends javax.swing.JPanel {
 
+    //Backend
+    private GestorArchivos gestor;
+    private LectorDeArchivos lector;
     /**
      * Creates new form EditorArea
      */
-    public EditorArea() {
+    public EditorArea(GestorArchivos gestor, LectorDeArchivos lector) {
         initComponents();
         
-        ocultarBarrasScroll();
+        //Backend
+        this.gestor = gestor;
+        this.lector = lector;
         
+        //Frontend
+        this.lineaTextPane.setEditable(false);
+        ocultarBarrasScroll();
+    }
+    
+    public void cargarTexto(){
+        String texto = this.lector.leerArchivoTexto(gestor.getCurrentFile());
+        this.editorTextPane.setText(texto);
+        actualizarNumeroLineas(texto);
+    }
+    
+    
+    private void actualizarNumeroLineas(String texto){
+        String [] saltosDeLinea = texto.split("\n");
+        int numeroLineas = saltosDeLinea.length;
+        String textoLineas = "";
+        for (int i = 0; i < saltosDeLinea.length; i++) {
+            textoLineas = textoLineas +(i+1) +"\n";
+        }
+        
+        this.lineaTextPane.setText(textoLineas);
     }
     
     private void ocultarBarrasScroll(){
