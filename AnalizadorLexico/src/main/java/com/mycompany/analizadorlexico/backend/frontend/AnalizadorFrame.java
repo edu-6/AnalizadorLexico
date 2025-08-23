@@ -11,6 +11,7 @@ import com.mycompany.analizadorlexico.backend.SIMBOLOS;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -22,34 +23,43 @@ public class AnalizadorFrame extends javax.swing.JFrame {
     //Frontend
     private EditorArea editorArea;
     private ResultadosPanel resultadosPanel;
-    
+
     //Backend
     private GestorArchivos gestorArchivos;
     private LectorDeArchivos lectorArchivos;
     private LectorJSON lectorJson;
     private SIMBOLOS simbolos;
+
     /**
      * Creates new form AnalizadorFrame
      */
     public AnalizadorFrame() {
         initComponents();
-        this.setPreferredSize(new Dimension(1000,780));
+        this.setPreferredSize(new Dimension(1000, 780));
         this.panelFondo.setLayout(new BorderLayout());
-        
+
         //Backend
         this.lectorJson = new LectorJSON();
         this.gestorArchivos = new GestorArchivos();
         this.lectorArchivos = new LectorDeArchivos();
-        
-        this.editorArea = new EditorArea(gestorArchivos,lectorArchivos);
-        this.panelFondo.add( editorArea, BorderLayout.CENTER);
+
+        this.editorArea = new EditorArea(gestorArchivos, lectorArchivos);
+        this.panelFondo.add(editorArea, BorderLayout.CENTER);
         this.resultadosPanel = new ResultadosPanel();
         this.panelFondo.add(resultadosPanel, BorderLayout.SOUTH);
-        
-        
-        
-        
     }
+
+    private void intentarGuardarCambios() {
+        if (gestorArchivos.hayCambiosSinGuardar()) {
+            int opcion = JOptionPane.showConfirmDialog(this,"¿Desea guardar los cambios?","Confirmación",JOptionPane.YES_NO_OPTION);
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                String texto = editorArea.getEditorText(); // obtener el nuevo texto
+                gestorArchivos.guardarCambiosEnArchivo(texto);
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -95,6 +105,11 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         jMenuBar1.add(cargaJson);
 
         jMenu3.setText("Nuevo archivo");
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Editar JSON");
@@ -121,33 +136,41 @@ public class AnalizadorFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cargarArchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cargarArchivoMouseClicked
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto","txt");
+        intentarGuardarCambios(); // se inentan guardar cambios por si habían
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto", "txt");
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(filter);
         fileChooser.setAcceptAllFileFilterUsed(false);
-        
+
         int opcion = fileChooser.showDialog(this, "Cargar");
-        if(opcion == JFileChooser.APPROVE_OPTION){
+        if (opcion == JFileChooser.APPROVE_OPTION) {
             gestorArchivos.setCurrentFile(fileChooser.getSelectedFile());
             editorArea.cargarTexto();
-            System.out.println("funciona");
+            gestorArchivos.setFileIsSaved(true);
         }
-        
+
     }//GEN-LAST:event_cargarArchivoMouseClicked
 
     private void cargaJsonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cargaJsonMouseClicked
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos json","json");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos json", "json");
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(filter);
         fileChooser.setAcceptAllFileFilterUsed(false);
-        
+
         int opcion = fileChooser.showDialog(this, "Cargar");
-        if(opcion == JFileChooser.APPROVE_OPTION){
+        if (opcion == JFileChooser.APPROVE_OPTION) {
             gestorArchivos.setJsonConfigFile(fileChooser.getSelectedFile());
             this.simbolos = this.lectorJson.convertirJSON(gestorArchivos.getJsonConfigFile());
             this.simbolos.selfDescribe();
         }
     }//GEN-LAST:event_cargaJsonMouseClicked
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+        intentarGuardarCambios();
+        editorArea.limpiarEditorArea();
+        gestorArchivos.setCurrentFile(null);
+    }//GEN-LAST:event_jMenu3MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

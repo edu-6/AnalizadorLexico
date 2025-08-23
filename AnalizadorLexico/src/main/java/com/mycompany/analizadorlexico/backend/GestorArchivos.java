@@ -5,16 +5,23 @@
 package com.mycompany.analizadorlexico.backend;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  *
  * @author edu
  */
 public class GestorArchivos {
+
     private File currentFile;
     private boolean fileIsSaved;
     private File jsonConfigFile;
     private boolean jsonIsSaved;
+
+    public GestorArchivos() {
+        this.fileIsSaved = true;
+    }
 
     public void setCurrentFile(File currentFile) {
         this.currentFile = currentFile;
@@ -48,7 +55,15 @@ public class GestorArchivos {
     public boolean isJsonIsSaved() {
         return jsonIsSaved;
     }
-    
-    
-    
+
+    public boolean hayCambiosSinGuardar() {
+        return currentFile != null && !fileIsSaved;
+    }
+
+    public void guardarCambiosEnArchivo(String texto) {
+        try (FileWriter writer = new FileWriter(currentFile)) {
+            writer.write(texto);
+        } catch (IOException e) {
+        }
+    }
 }
