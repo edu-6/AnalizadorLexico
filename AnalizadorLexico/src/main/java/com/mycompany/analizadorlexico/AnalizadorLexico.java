@@ -4,6 +4,7 @@
 package com.mycompany.analizadorlexico;
 
 import com.mycompany.analizadorlexico.backend.LectorJSON;
+import com.mycompany.analizadorlexico.backend.frontend.AnalizadorFrame;
 
 /**
  *
@@ -12,7 +13,7 @@ import com.mycompany.analizadorlexico.backend.LectorJSON;
 public class AnalizadorLexico {
 
     public static void main(String[] args) {
-        LectorJSON lector = new LectorJSON();
-        lector.iniciar();
+        AnalizadorFrame frame = new AnalizadorFrame();
+        frame.setVisible(true);
     }
 }
