@@ -25,6 +25,7 @@ public class ErrorReconocedor extends ReconocedorToken {
 
     @Override
     public Token analizar(String texto, int indiceActual) {
+        this.ultimoIndiceUsado = indiceActual;
         return new Token("error", String.valueOf(texto.charAt(indiceActual)),1,11,1,1); // reportar nuevo error
     }
 

@@ -22,8 +22,15 @@ public class ComentarioBloqueRecogniser extends ReconocedorToken {
     public boolean esCandidato(String contenido, int indiceActual) {
         String etiquetaInicio = simbolos.getBloqueInicio();
         String cadena = "";
+        if(indiceActual+etiquetaInicio.length() >= contenido.length()){ // si ya está fuera del rango
+            return false;
+        }
+        System.out.println("Tamaño de la etiquta"+  etiquetaInicio.length());
         for (int i = 0; i < etiquetaInicio.length(); i++) {
+            System.out.println("Ciclo numero"+ i);
             cadena += contenido.charAt(indiceActual);
+            System.out.println(i);
+            System.out.println(cadena);
             indiceActual++;
         }
 

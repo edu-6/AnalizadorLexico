@@ -6,6 +6,7 @@ package com.mycompany.analizadorlexico.backend.analisis;
 
 import com.mycompany.analizadorlexico.backend.SIMBOLOS;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ComentarioBloqueRecogniser;
+import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ErrorReconocedor;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ReconocedorToken;
 import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class AnalizadorLexico {
                 lista.add(token); // añadir el token a una lista
                 int ultimoIndice = reconocedor.getUltimoIndiceUsado(); // obtener el indice acutal
                 indiceActual = ultimoIndice +1; // sumarle al indice
+                System.out.println("indice actual:"+ indiceActual);
             }
         }
         return lista;
@@ -75,7 +77,7 @@ public class AnalizadorLexico {
                 return reconocedor;
             }
         }
-        return null;
+        return new ErrorReconocedor(simbolos, this);
     }
     
     public void agregarLinea(){
