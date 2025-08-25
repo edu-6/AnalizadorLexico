@@ -10,11 +10,13 @@ package com.mycompany.analizadorlexico.backend.frontend;
  */
 public class ResultadosPanel extends javax.swing.JPanel {
 
+    private AnalizadorFrame analizador;
     /**
      * Creates new form ResultadosPanel
      */
-    public ResultadosPanel() {
+    public ResultadosPanel(AnalizadorFrame analizador) {
         initComponents();
+        this.analizador = analizador;
     }
 
     /**
@@ -56,7 +58,7 @@ public class ResultadosPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+        this.analizador.analizar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

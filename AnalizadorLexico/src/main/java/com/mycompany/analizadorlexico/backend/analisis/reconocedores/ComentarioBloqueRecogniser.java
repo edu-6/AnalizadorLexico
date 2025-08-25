@@ -28,24 +28,40 @@ public class ComentarioBloqueRecogniser extends ReconocedorToken {
         return String.valueOf(cadena).equals(etiquetaInicio);
     }
 
-    private String analizar(String texto, int indiceActual) {
+    @Override
+    public String analizar(String texto, int indiceActual) {
         int tamañoEtiquetaInicio = simbolos.getBloqueInicio().length();
         int primerCaracterRelevante = indiceActual + tamañoEtiquetaInicio;
+        
+        indiceActual+= tamañoEtiquetaInicio; // esto es clave
 
         String comentario = "";
 
-        while (indiceActual + tamañoEtiquetaInicio < texto.length()) {
-            String siguentesCaracteres = avanzarNCaracteres(primerCaracterRelevante, tamañoEtiquetaInicio, texto);
+        while (indiceActual  < texto.length()) {
+            String siguentesCaracteres = avanzarNCaracteres(indiceActual, tamañoEtiquetaInicio, texto);
             if (String.valueOf(siguentesCaracteres).equals(simbolos.getBloqueFin())) {
-                System.out.println("se ha encontrado el fin del comentario");
+                indiceActual++;
+                return generarToken(texto, indiceActual, comentario);
             } else {
-                comentario += texto.charAt(indiceActual + tamañoEtiquetaInicio);
+                comentario += texto.charAt(indiceActual);
                 indiceActual++;
             }
         }
 
-        return comentario;
+        return "es un error"; // tirar nuevo token error porque no logró enviar antes de que fuera el fin del archivo
 
+    }
+    
+    private String generarToken(String contenido, int indiceActual, String comentario){
+        
+        System.out.println("se ha encontrado el fin del comentario");
+        System.out.println("Se está verificando si es error o es valido");
+        boolean esError = this.esError(contenido, indiceActual);
+        if(!this.esError(contenido, indiceActual)){ // si no es error
+            return "es valido: "+ comentario;
+        }
+        
+        return "es un error";
     }
 
     private String avanzarNCaracteres(int caracterInicio, int cantidadAvance, String contenido) {

@@ -6,6 +6,7 @@ package com.mycompany.analizadorlexico.backend.frontend;
 
 import com.mycompany.analizadorlexico.backend.GestorArchivos;
 import com.mycompany.analizadorlexico.backend.LectorDeArchivos;
+import javax.swing.JTextPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
@@ -101,6 +102,12 @@ public class EditorArea extends javax.swing.JPanel {
 
         scrollEditor.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); // siempre visible
     }
+
+    public JTextPane getEditorTextPane() {
+        return editorTextPane;
+    }
+    
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

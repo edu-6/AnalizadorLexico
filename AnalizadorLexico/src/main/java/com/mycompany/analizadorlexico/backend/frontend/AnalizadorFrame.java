@@ -9,6 +9,7 @@ import com.mycompany.analizadorlexico.backend.GestorArchivos;
 import com.mycompany.analizadorlexico.backend.LectorDeArchivos;
 import com.mycompany.analizadorlexico.backend.LectorJSON;
 import com.mycompany.analizadorlexico.backend.SIMBOLOS;
+import com.mycompany.analizadorlexico.backend.analisis.AnalizadorLexico;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JDesktopPane;
@@ -51,7 +52,7 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         //Frontend
         this.editorArea = new EditorArea(gestorArchivos, lectorArchivos);
         this.panelFondo.add(editorArea, BorderLayout.CENTER);
-        this.resultadosPanel = new ResultadosPanel();
+        this.resultadosPanel = new ResultadosPanel(this);
         this.panelFondo.add(resultadosPanel, BorderLayout.SOUTH);
     }
 
@@ -64,6 +65,12 @@ public class AnalizadorFrame extends javax.swing.JFrame {
                 gestorArchivos.guardarCambiosEnArchivo(texto);
             }
         }
+    }
+    
+    public void analizar(){
+        AnalizadorLexico analizador  = new AnalizadorLexico(simbolos);
+      String resultado = analizador.analizar(this.editorArea.getEditorTextPane().getText());
+        System.out.println(resultado);
     }
 
     // esto debería ir en el backend

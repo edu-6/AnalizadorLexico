@@ -23,13 +23,30 @@ public class AnalizadorLexico {
         this.reconocedores = new ReconocedorToken[]{new ComentarioBloqueRecogniser(simbolos)};
     }
 
-    public void analizar(String contenido) {
+    public String analizar (String contenido) {
         if (!contenido.isBlank()) { // si el contenido no esta vacio
             int indiceActual = encontrarPrimerCaracterRelevante(contenido);
             
            ReconocedorToken reconocedor = intentarReconocerToken(contenido,indiceActual);
+           if(reconocedor != null){
+               String resultado =reconocedor.analizar(contenido,indiceActual);
+               return resultado;
+           }
         } else {
+            return null;
             // tirar exception de que el contenido está vacio
+        }
+        return null;
+    }
+    
+    public void analizar (int otroMetodo){
+        int indiceActual =0;
+        String contenido="0";
+        while(indiceActual < contenido.length()){
+            // buscar el primer caracter relevante 
+            // escoger reconocedor
+            // analizar con el reconocedor
+            // obtener el token
         }
     }
 
