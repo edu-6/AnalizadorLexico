@@ -10,8 +10,10 @@ import com.mycompany.analizadorlexico.backend.LectorDeArchivos;
 import com.mycompany.analizadorlexico.backend.LectorJSON;
 import com.mycompany.analizadorlexico.backend.SIMBOLOS;
 import com.mycompany.analizadorlexico.backend.analisis.AnalizadorLexico;
+import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
@@ -66,11 +68,13 @@ public class AnalizadorFrame extends javax.swing.JFrame {
             }
         }
     }
-    
-    public void analizar(){
-        AnalizadorLexico analizador  = new AnalizadorLexico(simbolos);
-      String resultado = analizador.analizar(this.editorArea.getEditorTextPane().getText());
-        System.out.println(resultado);
+
+    public void analizar() {
+        AnalizadorLexico analizador = new AnalizadorLexico(simbolos);
+        ArrayList<Token> lista = analizador.analizar(this.editorArea.getEditorTextPane().getText());
+        for (Token t : lista) {
+            t.selfDescribe();
+        }
     }
 
     // esto debería ir en el backend
@@ -214,7 +218,7 @@ public class AnalizadorFrame extends javax.swing.JFrame {
             panelFondo.add(new EdicionJson(this, editorJson));
             panelFondo.revalidate();
             panelFondo.repaint();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "No Hay archivo Json cargado");
         }
 

@@ -5,6 +5,7 @@
 package com.mycompany.analizadorlexico.backend.analisis.reconocedores;
 
 import com.mycompany.analizadorlexico.backend.SIMBOLOS;
+import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
 
 /**
  *
@@ -12,6 +13,7 @@ import com.mycompany.analizadorlexico.backend.SIMBOLOS;
  */
 public abstract class ReconocedorToken {
 
+    protected int ultimoIndiceUsado;
     protected SIMBOLOS simbolos;
     public ReconocedorToken(SIMBOLOS simbolos) {
         this.simbolos = simbolos;
@@ -20,7 +22,6 @@ public abstract class ReconocedorToken {
     public abstract boolean esCandidato(String contenido, int indiceActual); // sirve para descartar si es o no es
     
     protected boolean esError(String contenido, int indiceActual){
-        System.out.println("Llegamos al metodo");
         if(indiceActual == contenido.length()-1){ // si está en el final del archivo
          return false;   
         }
@@ -30,6 +31,12 @@ public abstract class ReconocedorToken {
         return !(caracterSiguente ==  '\n') && !(caracterSiguente == ' '); // si no  es ninguno de los dos
     }
     
-    public abstract String analizar(String texto, int indiceActual);
+    public abstract Token analizar(String texto, int indiceActual);
+
+    public int getUltimoIndiceUsado() {
+        return ultimoIndiceUsado;
+    }
+    
+    
     
 }

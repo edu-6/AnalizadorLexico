@@ -5,6 +5,7 @@
 package com.mycompany.analizadorlexico.backend.analisis.reconocedores;
 
 import com.mycompany.analizadorlexico.backend.SIMBOLOS;
+import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
 
 /**
  *
@@ -29,18 +30,19 @@ public class ComentarioBloqueRecogniser extends ReconocedorToken {
     }
 
     @Override
-    public String analizar(String texto, int indiceActual) {
+    public Token analizar(String texto, int indiceActual) {
         int tamañoEtiquetaInicio = simbolos.getBloqueInicio().length();
         int primerCaracterRelevante = indiceActual + tamañoEtiquetaInicio;
-        
-        indiceActual+= tamañoEtiquetaInicio; // esto es clave
 
+        indiceActual += tamañoEtiquetaInicio; // esto es clave
+        System.out.println("estamos en el inicide " + indiceActual);
         String comentario = "";
 
-        while (indiceActual  < texto.length()) {
+        while (indiceActual + tamañoEtiquetaInicio - 1 < texto.length()) {
             String siguentesCaracteres = avanzarNCaracteres(indiceActual, tamañoEtiquetaInicio, texto);
             if (String.valueOf(siguentesCaracteres).equals(simbolos.getBloqueFin())) {
                 indiceActual++;
+                this.ultimoIndiceUsado  = indiceActual;
                 return generarToken(texto, indiceActual, comentario);
             } else {
                 comentario += texto.charAt(indiceActual);
@@ -48,20 +50,18 @@ public class ComentarioBloqueRecogniser extends ReconocedorToken {
             }
         }
 
-        return "es un error"; // tirar nuevo token error porque no logró enviar antes de que fuera el fin del archivo
+        this.ultimoIndiceUsado = indiceActual;
+        return new Token("error", comentario, 1, 1); // tirar nuevo token error porque no logró enviar antes de que fuera el fin del archivo
 
     }
-    
-    private String generarToken(String contenido, int indiceActual, String comentario){
-        
-        System.out.println("se ha encontrado el fin del comentario");
-        System.out.println("Se está verificando si es error o es valido");
+
+    private Token generarToken(String contenido, int indiceActual, String comentario) {
         boolean esError = this.esError(contenido, indiceActual);
-        if(!this.esError(contenido, indiceActual)){ // si no es error
-            return "es valido: "+ comentario;
+        if (!this.esError(contenido, indiceActual)) { // si no es error
+            return new Token(" comentario bloque", comentario, 1, 1);
         }
-        
-        return "es un error";
+
+        return new Token("error", comentario, 1, 1); // token provisional
     }
 
     private String avanzarNCaracteres(int caracterInicio, int cantidadAvance, String contenido) {
