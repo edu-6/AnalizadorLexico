@@ -47,6 +47,9 @@ public class AnalizadorLexico {
             // escoger reconocedor
             // analizar con el reconocedor
             // obtener el token
+            // obtener el indice acutal
+            // sumarle al indice actual
+            
         }
     }
 
