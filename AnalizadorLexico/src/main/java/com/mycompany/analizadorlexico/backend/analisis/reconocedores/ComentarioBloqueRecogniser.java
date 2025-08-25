@@ -5,6 +5,7 @@
 package com.mycompany.analizadorlexico.backend.analisis.reconocedores;
 
 import com.mycompany.analizadorlexico.backend.SIMBOLOS;
+import com.mycompany.analizadorlexico.backend.analisis.AnalizadorLexico;
 import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
 
 /**
@@ -13,8 +14,8 @@ import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
  */
 public class ComentarioBloqueRecogniser extends ReconocedorToken {
 
-    public ComentarioBloqueRecogniser(SIMBOLOS simbolos) {
-        super(simbolos);
+    public ComentarioBloqueRecogniser(SIMBOLOS simbolos, AnalizadorLexico analizador) {
+        super(simbolos, analizador);
     }
 
     @Override
@@ -31,43 +32,50 @@ public class ComentarioBloqueRecogniser extends ReconocedorToken {
 
     @Override
     public Token analizar(String texto, int indiceActual) {
+        int columnaInicio = analizador.getColumna(); // guardar la fila en la que venía
+        int lineaInicio = analizador.getLinea(); // guardar la fila actual donde empieza
+        int indiceInicio = indiceActual;
+
         int tamañoEtiquetaInicio = simbolos.getBloqueInicio().length();
-        int primerCaracterRelevante = indiceActual + tamañoEtiquetaInicio;
 
         indiceActual += tamañoEtiquetaInicio; // esto es clave
-        System.out.println("estamos en el inicide " + indiceActual);
+        analizador.aumentarColumna(tamañoEtiquetaInicio); // aumentar las columnas
         String comentario = "";
 
         while (indiceActual + tamañoEtiquetaInicio - 1 < texto.length()) {
             String siguentesCaracteres = avanzarNCaracteres(indiceActual, tamañoEtiquetaInicio, texto);
             if (String.valueOf(siguentesCaracteres).equals(simbolos.getBloqueFin())) {
                 indiceActual++;
-                this.ultimoIndiceUsado  = indiceActual;
-                return generarToken(texto, indiceActual, comentario);
+                this.ultimoIndiceUsado = indiceActual;
+                return generarToken(texto, indiceActual, comentario, lineaInicio, columnaInicio, indiceInicio, indiceActual);
             } else {
-                comentario += texto.charAt(indiceActual);
+                char caracter = texto.charAt(indiceActual);
+                comentario += caracter;
                 indiceActual++;
+                this.verificarSaltoLinea(caracter); // se verifica que no sea salto de linea
+                analizador.aumentarColumna(1);
             }
         }
 
         this.ultimoIndiceUsado = indiceActual;
-        return new Token("error", comentario, 1, 1); // tirar nuevo token error porque no logró enviar antes de que fuera el fin del archivo
+        return new Token("error", comentario, lineaInicio, columnaInicio, indiceInicio, indiceActual); // tirar nuevo token error porque no logró enviar antes de que fuera el fin del archivo
 
     }
 
-    private Token generarToken(String contenido, int indiceActual, String comentario) {
+    private Token generarToken(String contenido, int indiceActual, String comentario, int linea, int columna, int indiceInicio, int indiceFin) {
         boolean esError = this.esError(contenido, indiceActual);
         if (!this.esError(contenido, indiceActual)) { // si no es error
-            return new Token(" comentario bloque", comentario, 1, 1);
+            return new Token(" comentario bloque", comentario, linea, columna, indiceInicio, indiceFin);
         }
 
-        return new Token("error", comentario, 1, 1); // token provisional
+        return new Token("error", comentario, linea, columna, indiceInicio, indiceFin); // token error
     }
 
     private String avanzarNCaracteres(int caracterInicio, int cantidadAvance, String contenido) {
         String avance = "";
         for (int i = 0; i < cantidadAvance; i++) {
-            avance += contenido.charAt(caracterInicio);
+            char caracter = contenido.charAt(caracterInicio);
+            avance += caracter;
             caracterInicio++;
         }
 

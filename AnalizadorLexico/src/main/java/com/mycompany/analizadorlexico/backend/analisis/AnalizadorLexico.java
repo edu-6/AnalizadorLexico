@@ -18,12 +18,12 @@ public class AnalizadorLexico {
 
     private SIMBOLOS simbolos;
     private ReconocedorToken[] reconocedores;
-    private int numeroLinea;
-    private int numeroColumna;
+    private int linea = 1;
+    private int columna = 0;
 
     public AnalizadorLexico(SIMBOLOS simbolos) {
         this.simbolos = simbolos;
-        this.reconocedores = new ReconocedorToken[]{new ComentarioBloqueRecogniser(simbolos)};
+        this.reconocedores = new ReconocedorToken[]{new ComentarioBloqueRecogniser(simbolos,this)};
     }
 
     public ArrayList<Token>  analizar(String contenido) {
@@ -57,11 +57,13 @@ public class AnalizadorLexico {
 
     private int encontrarPrimerCaracterRelevante(int indiceActual, String contenido) {
         for (int i = indiceActual; i < contenido.length(); i++) {
+            columna++;
             char caracter = contenido.charAt(i);
             if (caracter != '\n' && caracter != ' ') {
                 return i;
+            }else if(caracter == '\n'){
+                agregarLinea();
             }
-            System.out.println("el caracter en posicion "+ indiceActual +"es:"+caracter);
         }
         return -1;
     }
@@ -75,5 +77,24 @@ public class AnalizadorLexico {
         }
         return null;
     }
+    
+    public void agregarLinea(){
+        this.linea++;
+        this.columna = 0;
+    }
+
+    public int getLinea() {
+        return linea;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+    
+    public void aumentarColumna(int i){
+        this.columna += i;
+    }
+    
+    
 
 }

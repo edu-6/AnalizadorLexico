@@ -5,6 +5,7 @@
 package com.mycompany.analizadorlexico.backend.analisis.reconocedores;
 
 import com.mycompany.analizadorlexico.backend.SIMBOLOS;
+import com.mycompany.analizadorlexico.backend.analisis.AnalizadorLexico;
 import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
 
 /**
@@ -15,8 +16,10 @@ public abstract class ReconocedorToken {
 
     protected int ultimoIndiceUsado;
     protected SIMBOLOS simbolos;
-    public ReconocedorToken(SIMBOLOS simbolos) {
+    protected AnalizadorLexico analizador;
+    public ReconocedorToken(SIMBOLOS simbolos,AnalizadorLexico analizador ) {
         this.simbolos = simbolos;
+        this.analizador = analizador;
     }
     
     public abstract boolean esCandidato(String contenido, int indiceActual); // sirve para descartar si es o no es
@@ -27,7 +30,6 @@ public abstract class ReconocedorToken {
         }
         
         char caracterSiguente = contenido.charAt(indiceActual+1); // el siguente caracter
-        System.out.println("siguente "+caracterSiguente);
         return !(caracterSiguente ==  '\n') && !(caracterSiguente == ' '); // si no  es ninguno de los dos
     }
     
@@ -35,6 +37,13 @@ public abstract class ReconocedorToken {
 
     public int getUltimoIndiceUsado() {
         return ultimoIndiceUsado;
+    }
+    
+    
+    protected void verificarSaltoLinea(char caracter){
+        if(caracter == '\n'){
+            analizador.agregarLinea();
+        }
     }
     
     

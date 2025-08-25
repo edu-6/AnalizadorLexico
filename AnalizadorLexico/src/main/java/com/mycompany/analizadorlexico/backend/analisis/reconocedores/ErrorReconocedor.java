@@ -5,6 +5,7 @@
 package com.mycompany.analizadorlexico.backend.analisis.reconocedores;
 
 import com.mycompany.analizadorlexico.backend.SIMBOLOS;
+import com.mycompany.analizadorlexico.backend.analisis.AnalizadorLexico;
 import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
 
 /**
@@ -13,8 +14,8 @@ import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
  */
 public class ErrorReconocedor extends ReconocedorToken {
 
-    public ErrorReconocedor(SIMBOLOS simbolos) {
-        super(simbolos);
+    public ErrorReconocedor(SIMBOLOS simbolos,AnalizadorLexico analizador) {
+        super(simbolos,analizador);
     }
 
     @Override
@@ -24,7 +25,7 @@ public class ErrorReconocedor extends ReconocedorToken {
 
     @Override
     public Token analizar(String texto, int indiceActual) {
-        return new Token("error", String.valueOf(texto.charAt(indiceActual)),1,1); // reportar nuevo error
+        return new Token("error", String.valueOf(texto.charAt(indiceActual)),1,11,1,1); // reportar nuevo error
     }
 
 }

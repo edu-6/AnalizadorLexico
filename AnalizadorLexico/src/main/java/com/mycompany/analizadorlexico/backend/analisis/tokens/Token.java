@@ -14,22 +14,27 @@ public class Token {
     private String lexema;
     private int fila;
     private int columna;
+    private int indiceInicio;
+    private int indiceFin;
 
-    public Token(String tipoToken, String lexema, int fila, int columna) {
+    public Token(String tipoToken, String lexema, int fila, int columna, int indiceInicio, int indiceFin) {
         this.tipoToken = tipoToken;
         this.lexema = lexema;
         this.fila = fila;
         this.columna = columna;
+        this.indiceInicio = indiceInicio;
+        this.indiceFin = indiceFin;
     }
 
     public void selfDescribe() {
-        System.out.println(" \n");
         System.out.println(" \n");
         System.out.println("----------------------------------------------------");
         System.out.println("Token de tipo: " + tipoToken);
         System.out.println("lexema: " + lexema);
         System.out.println("fila: " + fila);
         System.out.println("columna: " + columna);
+        System.out.println("inicio: " + indiceInicio);
+        System.out.println("fin: " + indiceFin);
     }
 
 }
