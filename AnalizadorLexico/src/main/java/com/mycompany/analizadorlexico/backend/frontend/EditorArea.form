@@ -30,9 +30,9 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="ScrollLIneas" min="-2" pref="32" max="-2" attributes="0"/>
+              <Component id="ScrollLIneas" min="-2" pref="52" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="scrollEditor" pref="819" max="32767" attributes="0"/>
+              <Component id="scrollEditor" pref="799" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

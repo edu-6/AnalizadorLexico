@@ -1,0 +1,18 @@
+orden de prioridad:
+
+comentarios bloque
+comentarios linea
+palabras reservadas
+cadena
+identificador
+
+numero
+numero decimal
+
+
+
+
+prmero encontrar el primer caracter que no sea salto de linea ni sea espacio
+una vez encontrado verificar si no es comentario de bloque, si lo es entonces ir consumiendo caracteres y cuando las cadenas contenido sean de tamaño suficiente
+revisar que el contenido es igual a la etiqueta de cierre si es así, se termina aja
+

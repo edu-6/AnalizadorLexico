@@ -48,4 +48,34 @@ public class SIMBOLOS {
         }
     }
 
+    public String[] getPalabrasReservadas() {
+        return palabrasReservadas;
+    }
+
+    public String[] getOperadores() {
+        return operadores;
+    }
+
+    public String[] getPuntuacion() {
+        return puntuacion;
+    }
+
+    public String[] getAgrupacion() {
+        return agrupacion;
+    }
+
+    public String getLinea() {
+        return linea;
+    }
+
+    public String getBloqueInicio() {
+        return bloqueInicio;
+    }
+
+    public String getBloqueFin() {
+        return bloqueFin;
+    }
+    
+    
+
 }
