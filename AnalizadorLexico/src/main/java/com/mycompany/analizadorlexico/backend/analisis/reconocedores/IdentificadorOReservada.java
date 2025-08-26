@@ -40,13 +40,12 @@ public class IdentificadorOReservada extends ReconocedorToken {
             } else if (isEspacioOrSalto(caracter)) { // si es espacio o salto enviar token valido
                 indiceActual--;
                 this.ultimoIndiceUsado = indiceActual;
-                descartarSiEsReservada(cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);
+                return descartarSiEsReservada(cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);
             } else {
                 indiceActual--;
                 this.ultimoIndiceUsado = indiceActual;
                 return new Token("error", cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);// si es otro caracter entonces es error indiceActual -1
             }
-
         }
         this.ultimoIndiceUsado = indiceActual;
         return descartarSiEsReservada(cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);
@@ -74,7 +73,5 @@ public class IdentificadorOReservada extends ReconocedorToken {
             }
         }
         return new Token(tipo, cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);
-
     }
-
 }
