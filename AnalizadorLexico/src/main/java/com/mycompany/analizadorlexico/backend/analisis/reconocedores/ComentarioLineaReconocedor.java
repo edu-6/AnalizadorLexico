@@ -51,6 +51,7 @@ public class ComentarioLineaReconocedor extends ReconocedorToken {
          char caracter = texto.charAt(indiceActual);
          if(caracter == '\n'){ // si hay salto de linea
              analizador.agregarLinea();
+             indiceActual--;
              this.ultimoIndiceUsado = indiceActual;
              return new Token("comentario linea",comentario,lineaInicio,columnaInicio, indiceInicio, indiceActual);//enviar token
          }else{
@@ -59,6 +60,7 @@ public class ComentarioLineaReconocedor extends ReconocedorToken {
              analizador.aumentarColumna(1);
          }
         }
+        indiceActual--;
         this.ultimoIndiceUsado = indiceActual;
         return new Token("comentario linea",comentario,lineaInicio,columnaInicio, indiceInicio, indiceActual);
     }

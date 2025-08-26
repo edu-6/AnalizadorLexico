@@ -35,19 +35,20 @@ public class IdentificadorOReservada extends ReconocedorToken {
             char caracter = texto.charAt(indiceActual);
             if (esLetra(caracter) || esNumero(caracter)) {
                 cadena += caracter;
-                indiceActual++;
                 analizador.aumentarColumna(1);
             } else if (isEspacioOrSalto(caracter)) { // si es espacio o salto enviar token valido
                 indiceActual--;
                 this.ultimoIndiceUsado = indiceActual;
                 return descartarSiEsReservada(cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);
             } else {
-                indiceActual--;
+                cadena+=caracter;
                 this.ultimoIndiceUsado = indiceActual;
                 return new Token("error", cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);// si es otro caracter entonces es error indiceActual -1
             }
+            indiceActual++;
         }
         this.ultimoIndiceUsado = indiceActual;
+        indiceActual--;
         return descartarSiEsReservada(cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);
     }
 

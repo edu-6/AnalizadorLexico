@@ -39,7 +39,7 @@ public class AnalizadorLexico {
         ArrayList<Token> lista = new ArrayList<>();
         if (!contenido.isBlank()) { // si el contenido no esta vacio
             int indiceActual = 0;
-
+            
             while (indiceActual < contenido.length()) {
                 indiceActual = encontrarPrimerCaracterRelevante(indiceActual, contenido); // buscar el primer caracter relevante 
                 if (indiceActual > -1) {

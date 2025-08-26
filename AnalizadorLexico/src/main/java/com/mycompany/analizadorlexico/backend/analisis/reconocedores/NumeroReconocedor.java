@@ -39,21 +39,23 @@ public class NumeroReconocedor extends ReconocedorToken {
         String cadena = "";
         while (indiceActual < texto.length()) {
             char caracter = texto.charAt(indiceActual);
+            cadena += caracter;
+            analizador.aumentarColumna(1);
+            this.ultimoIndiceUsado = indiceActual;
 
-            if (esValido(caracter)) {
-                cadena += caracter;
-                indiceActual++;
-                analizador.aumentarColumna(1);
-            } else if (caracter == '\n' || caracter == ' ') { // si es salto linea o espacio
-                indiceActual--;
-                this.ultimoIndiceUsado = indiceActual;
-                return new Token(tipo, cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual); // si hay final
-            } else {
-                indiceActual--;
-                this.ultimoIndiceUsado = indiceActual;
-                return new Token("error", cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual); // si no es valido ni indica final
+            if (!esValido(caracter)) { // si no es valido
+
+                if (caracter == '\n' || caracter == ' ') { // si es salto linea o espacio
+                    indiceActual--;
+                    this.ultimoIndiceUsado =indiceActual;
+                    return new Token(tipo, cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual); // si hay final
+                } else {
+                    return new Token("error", cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual); // si no es valido ni indica final
+                }
             }
+            indiceActual++;
         }
+        indiceActual--; // porque sumo el ultimo y ya no pasó en el ciclo
         this.ultimoIndiceUsado = indiceActual;
         return new Token(tipo, cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);//si no huvieron errores y llegó al final
     }

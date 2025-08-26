@@ -50,10 +50,12 @@ public class CadenaReconocedor extends ReconocedorToken {
             }
 
             if (caracter == '"') { // si hay final de cadena
+                indiceActual--;
                 this.ultimoIndiceUsado = indiceActual;
                 return new Token("cadena", cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);//enviar token
             }
         }
+        indiceActual--;
         this.ultimoIndiceUsado = indiceActual;
         return new Token("error", cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);
     }
