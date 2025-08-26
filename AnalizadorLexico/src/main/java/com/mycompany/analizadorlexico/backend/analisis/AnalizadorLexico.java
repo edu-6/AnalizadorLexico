@@ -5,6 +5,7 @@
 package com.mycompany.analizadorlexico.backend.analisis;
 
 import com.mycompany.analizadorlexico.backend.SIMBOLOS;
+import com.mycompany.analizadorlexico.backend.analisis.reconocedores.CadenaReconocedor;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ComentarioBloqueRecogniser;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ComentarioLineaReconocedor;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ErrorReconocedor;
@@ -26,7 +27,8 @@ public class AnalizadorLexico {
     public AnalizadorLexico(SIMBOLOS simbolos) {
         this.simbolos = simbolos;
         this.reconocedores = new ReconocedorToken[]{new ComentarioBloqueRecogniser(simbolos,this)
-        , new ComentarioLineaReconocedor(simbolos, this)};
+        , new ComentarioLineaReconocedor(simbolos, this)
+        , new CadenaReconocedor(simbolos, this)};
     }
 
     public ArrayList<Token> analizar(String contenido) {
