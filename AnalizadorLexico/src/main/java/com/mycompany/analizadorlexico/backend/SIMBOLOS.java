@@ -20,6 +20,14 @@ public class SIMBOLOS {
     private String linea;
     private String bloqueInicio;
     private String bloqueFin;
+    
+    private String[] digitos = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+    
+    private String[] abecedario = { 
+            "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", 
+            "k", "l", "m", "n", "ñ", "o", "p", "q", "r", "s", 
+            "t", "u", "v", "w", "x", "y", "z" 
+    };
 
     public SIMBOLOS(String[] palabrasReservadas, String[] operadores, String[] puntuacion, String[] agrupacion, String linea, String bloqueInicio, String bloqueFin) {
         this.palabrasReservadas = palabrasReservadas;
@@ -75,6 +83,16 @@ public class SIMBOLOS {
     public String getBloqueFin() {
         return bloqueFin;
     }
+
+    public String[] getDigitos() {
+        return digitos;
+    }
+
+    public String[] getAbecedario() {
+        return abecedario;
+    }
+    
+    
     
     
 
