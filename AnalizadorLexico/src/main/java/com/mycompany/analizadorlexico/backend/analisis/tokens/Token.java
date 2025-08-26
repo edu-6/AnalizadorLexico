@@ -27,7 +27,6 @@ public class Token {
     }
 
     public void selfDescribe() {
-        System.out.println(" \n");
         System.out.println("----------------------------------------------------");
         System.out.println("Token de tipo: " + tipoToken);
         System.out.println("lexema: " + lexema);

@@ -10,6 +10,7 @@ import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ComentarioB
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ComentarioLineaReconocedor;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ErrorReconocedor;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.IdentificadorOReservada;
+import com.mycompany.analizadorlexico.backend.analisis.reconocedores.NumeroReconocedor;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ReconocedorToken;
 import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
 import java.util.ArrayList;
@@ -30,7 +31,8 @@ public class AnalizadorLexico {
         this.reconocedores = new ReconocedorToken[]{new ComentarioBloqueRecogniser(simbolos,this)
         , new ComentarioLineaReconocedor(simbolos, this)
         , new CadenaReconocedor(simbolos, this)
-        , new IdentificadorOReservada(simbolos, this)};
+        , new IdentificadorOReservada(simbolos, this)
+        , new NumeroReconocedor(simbolos, this)};
     }
 
     public ArrayList<Token> analizar(String contenido) {
