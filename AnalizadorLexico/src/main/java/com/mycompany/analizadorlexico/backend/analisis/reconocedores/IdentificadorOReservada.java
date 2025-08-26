@@ -9,7 +9,7 @@ import com.mycompany.analizadorlexico.backend.analisis.AnalizadorLexico;
 import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
 
 /**
- *
+ 
  * @author edu
  */
 public class IdentificadorOReservada extends ReconocedorToken {
@@ -37,42 +37,44 @@ public class IdentificadorOReservada extends ReconocedorToken {
                 cadena += caracter;
                 indiceActual++;
                 analizador.aumentarColumna(1);
-            }else{
-                // si es otro caracter
-                // veriricar si no es no permitido y tirar error
+            } else if (isEspacioOrSalto(caracter)) { // si es espacio o salto enviar token valido
+                indiceActual--;
+                this.ultimoIndiceUsado = indiceActual;
+                descartarSiEsReservada(cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);
+            } else {
+                indiceActual--;
+                this.ultimoIndiceUsado = indiceActual;
+                return new Token("error", cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);// si es otro caracter entonces es error indiceActual -1
             }
+
         }
         this.ultimoIndiceUsado = indiceActual;
-        return new Token("", cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);
+        return descartarSiEsReservada(cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);
     }
-    
+
     /* esta clase no verifica los saltos de linea, si encuentra uno o un espacio, 
-    ahí para el analisis y no aumenta caracterActual ya es trabajo del analizdor buscar
+    ahí para el analisis y no aumenta caracterActual ya es trabajo del analizador buscar
     y encontrar el caracter relevante y de paso contar saltos de linea*/
 
-    private boolean esLetra(char parametro) {
-        String[] letras = simbolos.getAbecedario();
-        for (String letra : letras) {
-            if (String.valueOf(parametro).equalsIgnoreCase(letra)) {
-                return true;
-            }
-        }
 
-        return false;
-    }
-
-    private boolean esNumero(char parametro) {
-        String[] digitos = simbolos.getDigitos();
-        for (String digito : digitos) {
-            if (String.valueOf(parametro).equals(digito)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    private boolean isEspacioOrSalto(char caracter){
+    private boolean isEspacioOrSalto(char caracter) {
         return String.valueOf(caracter).equals(" ") || String.valueOf(caracter).equals("\n");
+    }
+
+    /**
+     * Verifica si es una palabra reservada o no y envia el token final correcto
+     */
+    private Token descartarSiEsReservada(String cadena, int lineaInicio, int columnaInicio, int indiceInicio, int indiceActual) {
+        String tipo = "identificador";
+        String[] reservadas = simbolos.getPalabrasReservadas();
+        for (String reservada : reservadas) {
+            if (String.valueOf(reservada).equals(cadena)) {
+                tipo = "reservada";
+                break;
+            }
+        }
+        return new Token(tipo, cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);
+
     }
 
 }
