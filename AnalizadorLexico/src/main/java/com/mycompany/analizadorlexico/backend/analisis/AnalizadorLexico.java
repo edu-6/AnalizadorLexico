@@ -6,6 +6,7 @@ package com.mycompany.analizadorlexico.backend.analisis;
 
 import com.mycompany.analizadorlexico.backend.SIMBOLOS;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ComentarioBloqueRecogniser;
+import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ComentarioLineaReconocedor;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ErrorReconocedor;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ReconocedorToken;
 import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
@@ -24,22 +25,28 @@ public class AnalizadorLexico {
 
     public AnalizadorLexico(SIMBOLOS simbolos) {
         this.simbolos = simbolos;
-        this.reconocedores = new ReconocedorToken[]{new ComentarioBloqueRecogniser(simbolos,this)};
+        this.reconocedores = new ReconocedorToken[]{new ComentarioBloqueRecogniser(simbolos,this)
+        , new ComentarioLineaReconocedor(simbolos, this)};
     }
 
-    public ArrayList<Token>  analizar(String contenido) {
+    public ArrayList<Token> analizar(String contenido) {
         ArrayList<Token> lista = new ArrayList<>();
         if (!contenido.isBlank()) { // si el contenido no esta vacio
             int indiceActual = 0;
-            
+
             while (indiceActual < contenido.length()) {
-                indiceActual = encontrarPrimerCaracterRelevante(indiceActual,contenido); // buscar el primer caracter relevante 
-                ReconocedorToken reconocedor = intentarReconocerToken(contenido, indiceActual); // escoger reconocedor
-                Token token = reconocedor.analizar(contenido, indiceActual);// obtener el token
-                lista.add(token); // añadir el token a una lista
-                int ultimoIndice = reconocedor.getUltimoIndiceUsado(); // obtener el indice acutal
-                indiceActual = ultimoIndice +1; // sumarle al indice
-                System.out.println("indice actual:"+ indiceActual);
+                indiceActual = encontrarPrimerCaracterRelevante(indiceActual, contenido); // buscar el primer caracter relevante 
+                if (indiceActual > -1) {
+                    ReconocedorToken reconocedor = intentarReconocerToken(contenido, indiceActual); // escoger reconocedor
+                    Token token = reconocedor.analizar(contenido, indiceActual);// obtener el token
+                    lista.add(token); // añadir el token a una lista
+                    int ultimoIndice = reconocedor.getUltimoIndiceUsado(); // obtener el indice acutal
+                    indiceActual = ultimoIndice + 1; // sumarle al indice
+                    System.out.println("indice actual:" + indiceActual);
+                }else{
+                    return lista; // ya se llegó al final del archivo
+                }
+
             }
         }
         return lista;
@@ -63,7 +70,7 @@ public class AnalizadorLexico {
             char caracter = contenido.charAt(i);
             if (caracter != '\n' && caracter != ' ') {
                 return i;
-            }else if(caracter == '\n'){
+            } else if (caracter == '\n') {
                 agregarLinea();
             }
         }
@@ -79,8 +86,8 @@ public class AnalizadorLexico {
         }
         return new ErrorReconocedor(simbolos, this);
     }
-    
-    public void agregarLinea(){
+
+    public void agregarLinea() {
         this.linea++;
         this.columna = 0;
     }
@@ -92,11 +99,9 @@ public class AnalizadorLexico {
     public int getColumna() {
         return columna;
     }
-    
-    public void aumentarColumna(int i){
+
+    public void aumentarColumna(int i) {
         this.columna += i;
     }
-    
-    
 
 }
