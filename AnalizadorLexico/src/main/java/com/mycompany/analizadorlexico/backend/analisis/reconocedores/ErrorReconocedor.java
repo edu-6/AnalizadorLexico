@@ -25,8 +25,12 @@ public class ErrorReconocedor extends ReconocedorToken {
 
     @Override
     public Token analizar(String texto, int indiceActual) {
+        int columnaInicio = analizador.getColumna(); // guardar la fila en la que venía
+        int lineaInicio = analizador.getLinea(); // guardar la fila actual donde empieza
+        int indiceInicio = indiceActual;
         this.ultimoIndiceUsado = indiceActual;
-        return new Token("error", String.valueOf(texto.charAt(indiceActual)),1,11,1,1); // reportar nuevo error
+        String error = String.valueOf(texto.charAt(indiceActual));
+        return new Token("comentario linea",error,lineaInicio,columnaInicio, indiceInicio, indiceActual);
     }
 
 }

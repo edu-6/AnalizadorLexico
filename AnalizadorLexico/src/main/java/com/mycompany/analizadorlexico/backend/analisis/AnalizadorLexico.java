@@ -5,12 +5,15 @@
 package com.mycompany.analizadorlexico.backend.analisis;
 
 import com.mycompany.analizadorlexico.backend.SIMBOLOS;
+import com.mycompany.analizadorlexico.backend.analisis.reconocedores.AgrupacionReconocedor;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.CadenaReconocedor;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ComentarioBloqueRecogniser;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ComentarioLineaReconocedor;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ErrorReconocedor;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.IdentificadorOReservada;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.NumeroReconocedor;
+import com.mycompany.analizadorlexico.backend.analisis.reconocedores.OperadorReconocedor;
+import com.mycompany.analizadorlexico.backend.analisis.reconocedores.PuntuacionReconocedor;
 import com.mycompany.analizadorlexico.backend.analisis.reconocedores.ReconocedorToken;
 import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
 import java.util.ArrayList;
@@ -32,7 +35,10 @@ public class AnalizadorLexico {
         , new ComentarioLineaReconocedor(simbolos, this)
         , new CadenaReconocedor(simbolos, this)
         , new IdentificadorOReservada(simbolos, this)
-        , new NumeroReconocedor(simbolos, this)};
+        , new NumeroReconocedor(simbolos, this)
+        , new AgrupacionReconocedor(simbolos, this)
+        , new OperadorReconocedor(simbolos, this)
+        , new PuntuacionReconocedor(simbolos, this)};
     }
 
     public ArrayList<Token> analizar(String contenido) {
