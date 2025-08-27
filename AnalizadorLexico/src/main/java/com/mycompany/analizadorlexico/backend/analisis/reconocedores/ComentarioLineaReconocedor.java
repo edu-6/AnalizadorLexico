@@ -50,7 +50,7 @@ public class ComentarioLineaReconocedor extends ReconocedorToken {
         while(indiceActual < texto.length()){
          char caracter = texto.charAt(indiceActual);
          if(caracter == '\n'){ // si hay salto de linea
-             analizador.agregarLinea();
+             //analizador.agregarLinea();
              indiceActual--;
              this.ultimoIndiceUsado = indiceActual;
              return new Token("comentario linea",comentario,lineaInicio,columnaInicio, indiceInicio, indiceActual);//enviar token

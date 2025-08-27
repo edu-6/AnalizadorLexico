@@ -70,12 +70,13 @@ public class ComentarioBloqueRecogniser extends ReconocedorToken {
     }
 
     private Token generarToken(String contenido, int indiceActual, String comentario, int linea, int columna, int indiceInicio, int indiceFin) {
-        boolean esError = this.esError(contenido, indiceActual);
+       /*boolean esError = this.esError(contenido, indiceActual);
         if (!this.esError(contenido, indiceActual)) { // si no es error
             return new Token("comentario bloque", comentario, linea, columna, indiceInicio, indiceFin);
-        }
+        }*/
+        return new Token("comentario bloque", comentario, linea, columna, indiceInicio, indiceFin);
 
-        return new Token("error", comentario, linea, columna, indiceInicio, indiceFin); // token error
+        //return new Token("error", comentario, linea, columna, indiceInicio, indiceFin); // token error
     }
 
     private String avanzarNCaracteres(int caracterInicio, int cantidadAvance, String contenido) {

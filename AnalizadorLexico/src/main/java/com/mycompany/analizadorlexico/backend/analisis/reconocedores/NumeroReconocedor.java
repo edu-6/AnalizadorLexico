@@ -50,14 +50,14 @@ public class NumeroReconocedor extends ReconocedorToken {
                     this.ultimoIndiceUsado =indiceActual;
                     return new Token(tipo, cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual); // si hay final
                 } else {
-                    return new Token("error", cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual); // si no es valido ni indica final
+                    return validarUltimoCaracter("error", cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual); // si no es valido ni indica final
                 }
             }
             indiceActual++;
         }
         indiceActual--; // porque sumo el ultimo y ya no pasó en el ciclo
         this.ultimoIndiceUsado = indiceActual;
-        return new Token(tipo, cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);//si no huvieron errores y llegó al final
+        return validarUltimoCaracter(tipo, cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual);//si no huvieron errores y llegó al final
     }
 
     private boolean esValido(char caracter) {
@@ -69,6 +69,14 @@ public class NumeroReconocedor extends ReconocedorToken {
             return true;
         }
         return false;
+    }
+    
+    private Token validarUltimoCaracter(String tipo, String cadena, int lineaInicio, int columnaInicio, int indiceInicio, int indiceFinal){
+        char ultimoCaracter = cadena.charAt(cadena.length()-1);
+        if(ultimoCaracter == '.'){
+            tipo = "error";
+        }
+        return new Token(tipo, cadena, lineaInicio, columnaInicio, indiceInicio, indiceFinal);
     }
 
 }
