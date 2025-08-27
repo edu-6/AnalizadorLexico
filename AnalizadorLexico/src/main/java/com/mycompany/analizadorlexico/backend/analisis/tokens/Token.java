@@ -25,6 +25,64 @@ public class Token {
         this.indiceInicio = indiceInicio;
         this.indiceFin = indiceFin;
     }
+    
+    
+    public void concatenarToken(Token token){
+        this.lexema += token.getLexema();
+        int indiceFin = token.getIndiceFin();
+        this.indiceFin = indiceFin;
+    }
+
+    public String getTipoToken() {
+        return tipoToken;
+    }
+
+    public String getLexema() {
+        return lexema;
+    }
+
+    public int getFila() {
+        return fila;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+
+    public int getIndiceInicio() {
+        return indiceInicio;
+    }
+
+    public int getIndiceFin() {
+        return indiceFin;
+    }
+
+    public void setTipoToken(String tipoToken) {
+        this.tipoToken = tipoToken;
+    }
+
+    public void setLexema(String lexema) {
+        this.lexema = lexema;
+    }
+
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
+
+    public void setIndiceInicio(int indiceInicio) {
+        this.indiceInicio = indiceInicio;
+    }
+
+    public void setIndiceFin(int indiceFin) {
+        this.indiceFin = indiceFin;
+    }
+    
+    
+    
 
     public void selfDescribe() {
         System.out.println("----------------------------------------------------");

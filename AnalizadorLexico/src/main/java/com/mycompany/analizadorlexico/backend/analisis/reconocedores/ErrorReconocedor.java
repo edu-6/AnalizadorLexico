@@ -30,7 +30,7 @@ public class ErrorReconocedor extends ReconocedorToken {
         int indiceInicio = indiceActual;
         this.ultimoIndiceUsado = indiceActual;
         String error = String.valueOf(texto.charAt(indiceActual));
-        return new Token("comentario linea",error,lineaInicio,columnaInicio, indiceInicio, indiceActual);
+        return new Token("error",error,lineaInicio,columnaInicio, indiceInicio, indiceActual);
     }
 
 }

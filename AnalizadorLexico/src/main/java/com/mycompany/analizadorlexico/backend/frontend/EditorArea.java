@@ -6,6 +6,7 @@ package com.mycompany.analizadorlexico.backend.frontend;
 
 import com.mycompany.analizadorlexico.backend.GestorArchivos;
 import com.mycompany.analizadorlexico.backend.LectorDeArchivos;
+import java.awt.Dimension;
 import javax.swing.JTextPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -35,6 +36,9 @@ public class EditorArea extends javax.swing.JPanel {
         this.lineaTextPane.setEditable(false);
         ocultarBarrasScroll();
         configurarEventos();
+        
+        // ultimos cambios
+        this.setPreferredSize(new Dimension(500,500));
     }
     
     private void registrarCambioEnTexto(){
