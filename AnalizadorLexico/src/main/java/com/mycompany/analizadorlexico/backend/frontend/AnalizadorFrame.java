@@ -11,6 +11,7 @@ import com.mycompany.analizadorlexico.backend.LectorJSON;
 import com.mycompany.analizadorlexico.backend.SIMBOLOS;
 import com.mycompany.analizadorlexico.backend.analisis.AnalizadorLexico;
 import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
+import com.mycompany.analizadorlexico.backend.exceptions.JsonNotFoundException;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -69,12 +70,16 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         }
     }
 
-    public void analizar() {
+    public ArrayList<Token> analizar() throws JsonNotFoundException {
+        if(this.gestorArchivos.getJsonConfigFile() == null){
+            throw new JsonNotFoundException();
+        }
         AnalizadorLexico analizador = new AnalizadorLexico(simbolos);
         ArrayList<Token> lista = analizador.analizar(this.editorArea.getEditorTextPane().getText());
         for (Token t : lista) {
             t.selfDescribe();
         }
+        return lista;
     }
 
     // esto debería ir en el backend
