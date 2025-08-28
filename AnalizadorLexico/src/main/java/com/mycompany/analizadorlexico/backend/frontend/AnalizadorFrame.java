@@ -5,6 +5,7 @@
 package com.mycompany.analizadorlexico.backend.frontend;
 
 import com.mycompany.analizadorlexico.backend.EditorJsonFile;
+import com.mycompany.analizadorlexico.backend.ExportadorArchivo;
 import com.mycompany.analizadorlexico.backend.GestorArchivos;
 import com.mycompany.analizadorlexico.backend.LectorDeArchivos;
 import com.mycompany.analizadorlexico.backend.LectorJSON;
@@ -14,6 +15,7 @@ import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
 import com.mycompany.analizadorlexico.backend.exceptions.JsonNotFoundException;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
@@ -38,6 +40,7 @@ public class AnalizadorFrame extends javax.swing.JFrame {
     private LectorDeArchivos lectorArchivos;
     private LectorJSON lectorJson;
     private SIMBOLOS simbolos;
+    private ExportadorArchivo exportador;
 
     /**
      * Creates new form AnalizadorFrame
@@ -52,15 +55,16 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         this.gestorArchivos = new GestorArchivos();
         this.lectorArchivos = new LectorDeArchivos();
         this.editorJson = new EditorJsonFile(gestorArchivos);
+        this.exportador = new ExportadorArchivo();
 
         //Frontend
-        this.editorArea = new EditorArea(gestorArchivos, lectorArchivos,this);
+        this.editorArea = new EditorArea(gestorArchivos, lectorArchivos, this);
         this.panelFondo.add(editorArea, BorderLayout.CENTER);
         this.resultadosPanel = new ResultadosPanel(this);
         this.panelFondo.add(resultadosPanel, BorderLayout.SOUTH);
     }
-    
-    public JTextPane getEditorTextPane(){
+
+    public JTextPane getEditorTextPane() {
         return this.editorArea.getEditorTextPane();
     }
 
@@ -76,7 +80,7 @@ public class AnalizadorFrame extends javax.swing.JFrame {
     }
 
     public ArrayList<Token> analizar() throws JsonNotFoundException {
-        if(this.gestorArchivos.getJsonConfigFile() == null){
+        if (this.gestorArchivos.getJsonConfigFile() == null) {
             throw new JsonNotFoundException();
         }
         AnalizadorLexico analizador = new AnalizadorLexico(simbolos);
@@ -112,6 +116,7 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
+        exportarTexto = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -164,6 +169,14 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu4);
         jMenuBar1.add(jMenu1);
+
+        exportarTexto.setText("Exportar texto");
+        exportarTexto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                exportarTextoMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(exportarTexto);
 
         setJMenuBar(jMenuBar1);
 
@@ -235,10 +248,25 @@ public class AnalizadorFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenu4MouseClicked
 
+    private void exportarTextoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exportarTextoMouseClicked
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar archivo de texto");
+        int opcion = fileChooser.showSaveDialog(null);
+        if (opcion == JFileChooser.APPROVE_OPTION) {
+            File archivo = fileChooser.getSelectedFile();
+            if (!archivo.getName().toLowerCase().endsWith(".txt")) {
+                archivo = new File(archivo.getAbsolutePath() + ".txt");
+            }
+            String texto = this.editorArea.getEditorTextPane().getText();
+            this.exportador.escribirArchivo(texto, archivo);
+        }
+    }//GEN-LAST:event_exportarTextoMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu cargaJson;
     private javax.swing.JMenu cargarArchivo;
+    private javax.swing.JMenu exportarTexto;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;

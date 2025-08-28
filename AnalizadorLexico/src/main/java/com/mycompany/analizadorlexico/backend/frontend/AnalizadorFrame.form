@@ -49,6 +49,14 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu1">
         </Menu>
+        <Menu class="javax.swing.JMenu" name="exportarTexto">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Exportar texto"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="exportarTextoMouseClicked"/>
+          </Events>
+        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>
