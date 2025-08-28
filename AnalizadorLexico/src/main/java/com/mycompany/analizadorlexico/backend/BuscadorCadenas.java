@@ -23,7 +23,7 @@ public class BuscadorCadenas {
             throw new CampoVacioException();
         }
 
-        //limpiar(areaTexto); // limpiar todo lo anterior
+        limpiar(areaTexto); // limpiar todo lo anterior
         int indiceActual = 0;
         String texto = areaTexto.getText();
 
