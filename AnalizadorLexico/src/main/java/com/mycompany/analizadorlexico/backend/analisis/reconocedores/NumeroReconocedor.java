@@ -48,7 +48,8 @@ public class NumeroReconocedor extends ReconocedorToken {
                 if (caracter == '\n' || caracter == ' ') { // si es salto linea o espacio
                     indiceActual--;
                     this.ultimoIndiceUsado =indiceActual;
-                    return new Token(tipo, cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual); // si hay final
+                    cadena = this.obiarUltimoCaracter(cadena);
+                    return validarUltimoCaracter(tipo, cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual); // si hay final
                 } else {
                     return validarUltimoCaracter("error", cadena, lineaInicio, columnaInicio, indiceInicio, indiceActual); // si no es valido ni indica final
                 }
@@ -73,10 +74,20 @@ public class NumeroReconocedor extends ReconocedorToken {
     
     private Token validarUltimoCaracter(String tipo, String cadena, int lineaInicio, int columnaInicio, int indiceInicio, int indiceFinal){
         char ultimoCaracter = cadena.charAt(cadena.length()-1);
-        if(ultimoCaracter == '.'){
+        if(!esNumero(ultimoCaracter)){
             tipo = "error";
         }
         return new Token(tipo, cadena, lineaInicio, columnaInicio, indiceInicio, indiceFinal);
+    }
+    
+    
+    private String obiarUltimoCaracter(String cadena){
+        String nueva = "";
+        for (int i = 0; i < cadena.length()-1; i++) {
+            nueva+= cadena.charAt(i);
+            
+        }
+        return nueva;
     }
 
 }

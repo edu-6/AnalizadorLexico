@@ -26,27 +26,40 @@ public class CreadorReportes {
         }
         return false;
     }
-    
-    public ArrayList<Token> generarListaErrores(ArrayList<Token> lista){
+
+    public ArrayList<Token> generarListaErrores(ArrayList<Token> lista) {
         ArrayList<Token> nuevaLista = unificarErrores(lista); // unifica los errores
         return filtrarErrores(nuevaLista);  // elimina lo que no es error
-        
+
     }
-    
-    private ArrayList<Token>  filtrarErrores(ArrayList<Token> lista){
+
+    private ArrayList<Token> filtrarErrores(ArrayList<Token> lista) {
         ArrayList<Token> nueva = new ArrayList();
         for (Token token : lista) {
-            if(token.getTipoToken().equals("error")){
+            if (token.getTipoToken().equals("error")) {
                 nueva.add(token);
             }
         }
         return nueva;
     }
-
+    
+    
+    public ArrayList<Token> filtrarComentarios(ArrayList<Token> lista) {
+        ArrayList<Token> nueva = new ArrayList();
+        for (Token token : lista) {
+            if (!token.getTipoToken().equals("comentario linea") && !token.getTipoToken().equals("comentario bloque")) {
+                nueva.add(token);
+            }
+        }
+        return nueva;
+    }
+    
+    
     /**
      * Une a los tokens de error seguidos
+     *
      * @param lista
-     * @return 
+     * @return
      */
     private ArrayList<Token> unificarErrores(ArrayList<Token> lista) {
         Token tokenError = null;
@@ -73,4 +86,74 @@ public class CreadorReportes {
         }
         return nuevos;
     }
+
+    public ReporteGeneral crearReporteGeneral(ArrayList<Token> lista) {
+        int cantidadErrores = 0;
+        String porcentajeBueno = "";
+        ArrayList<Token> listaErrores;
+        if(hayErrores(lista)){
+            listaErrores = generarListaErrores(lista);
+            cantidadErrores = listaErrores.size();
+        }
+        
+        ArrayList<Token> listaTodo = this.unificarErrores(lista); // primero unificar los errores
+        listaTodo = this.filtrarComentarios(lista);// quitar los comentarios
+        
+        int total = listaTodo.size();
+        int errores = cantidadErrores;
+        
+        int buenos =  total -errores;
+        if(total != 0){
+            double porcentaje = (buenos*100.0)/total;
+            //porcentajeBueno = porcentaje+"%             ";
+            porcentajeBueno = String.format("%.2f%%", porcentaje);
+        }
+        
+        String noUsados = tokensNoUsados(listaTodo);
+        
+        
+        return new ReporteGeneral(cantidadErrores,porcentajeBueno, noUsados);
+    }
+    
+    public String tokensNoUsados(ArrayList<Token> listaTodo){
+        String identificador = ">> identificador"+"\n";
+        String numero = ">> numero"+ "\n";
+        String decimal = ">> decimal"+ "\n";
+        String cadena = ">> cadena"+ "\n";
+        String reservada = ">> reservada"+ "\n";
+        String puntuacion = ">> puntuacion"+ "\n";
+        String operador = ">> operador"+ "\n";
+        String agrupacion = ">> agrupacion"+ "\n";
+        for (Token token : listaTodo) {
+            switch (token.getTipoToken()) {
+                case "identificador":
+                    identificador = "";
+                    break;
+                case "numero":
+                    numero = "";
+                    break;
+                case "decimal":
+                    decimal = "";
+                    break;
+                case "cadena":
+                    cadena = "";
+                    break;
+                case "reservada":
+                    reservada = "";
+                    break;
+                case "puntuacion":
+                    puntuacion = "";
+                    break;
+                case "operador":
+                    operador = "";
+                    break;
+                case "agrupacion":
+                    agrupacion = "";
+                    break;
+            }
+        }
+        return identificador+numero+decimal+cadena
+                +reservada+puntuacion+operador+agrupacion;
+    }
+    
 }

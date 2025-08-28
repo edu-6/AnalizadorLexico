@@ -5,12 +5,11 @@
 package com.mycompany.analizadorlexico.backend.frontend;
 
 import com.mycompany.analizadorlexico.backend.BuscadorCadenas;
+import com.mycompany.analizadorlexico.backend.CreadorReportes;
 import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
 import com.mycompany.analizadorlexico.backend.exceptions.CampoVacioException;
 import com.mycompany.analizadorlexico.backend.exceptions.JsonNotFoundException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -121,6 +120,7 @@ public class PanelOpciones extends javax.swing.JPanel {
        try {
             this.analizador.analizar();
             ArrayList<Token> tokens = this.analizador.analizar();
+            
             this.panelReportes.agregarTabla(tokens);
         } catch (JsonNotFoundException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());

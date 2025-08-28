@@ -34,11 +34,11 @@ public class BuscadorCadenas {
 
             for (int i = 0; i < cadenaBuscada.length(); i++) { // concatenar
                 cadena += texto.charAt(indiceActual + i);
-                System.out.println("cadena:" + cadena);
+                //System.out.println("cadena:" + cadena);
             }
 
             if (cadena.equals(cadenaBuscada)) {
-                System.out.println(" coindice");
+                //System.out.println(" coindice");
                 indiceActual += cadenaBuscada.length(); // aumentar el indice
                 resaltar(areaTexto, indiceInicio, indiceActual);
             } else {

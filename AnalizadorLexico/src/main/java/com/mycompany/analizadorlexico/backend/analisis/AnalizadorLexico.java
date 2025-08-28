@@ -54,7 +54,7 @@ public class AnalizadorLexico {
                     lista.add(token); // añadir el token a una lista
                     int ultimoIndice = reconocedor.getUltimoIndiceUsado(); // obtener el indice acutal
                     indiceActual = ultimoIndice + 1; // sumarle al indice
-                    System.out.println("indice actual:" + indiceActual);
+                    //System.out.println("indice actual:" + indiceActual);
                 }else{
                     return lista; // ya se llegó al final del archivo
                 }

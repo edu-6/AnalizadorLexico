@@ -5,8 +5,10 @@
 package com.mycompany.analizadorlexico.backend.frontend;
 
 import com.mycompany.analizadorlexico.backend.CreadorReportes;
+import com.mycompany.analizadorlexico.backend.ReporteGeneral;
 import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,7 +48,7 @@ public class ReportesPanel extends javax.swing.JPanel {
         } else {
 
             botonesActivos = true;
-            this.tablaTokens = crearTabla(lista, columnas);
+            this.tablaTokens = crearTabla(creadorReportes.filtrarComentarios(lista), columnas); // se filtran los comentarios
             this.jScrollPane1.setViewportView(tablaTokens);
         }
         
@@ -55,6 +57,10 @@ public class ReportesPanel extends javax.swing.JPanel {
 
         this.revalidate();
         this.repaint();
+        
+        ReporteGeneral reporteGeneral = creadorReportes.crearReporteGeneral(lista);
+        JOptionPane.showMessageDialog(this, reporteGeneral.getReporte());
+        
     }
 
     private JTable crearTabla(ArrayList<Token> lista, String[] columnas) {

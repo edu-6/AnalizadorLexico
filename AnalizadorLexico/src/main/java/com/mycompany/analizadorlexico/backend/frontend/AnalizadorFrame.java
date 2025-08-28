@@ -82,7 +82,7 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         AnalizadorLexico analizador = new AnalizadorLexico(simbolos);
         ArrayList<Token> lista = analizador.analizar(this.editorArea.getEditorTextPane().getText());
         for (Token t : lista) {
-            //t.selfDescribe();
+            t.selfDescribe();
         }
         return lista;
     }
