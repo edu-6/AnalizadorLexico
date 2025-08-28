@@ -25,11 +25,11 @@
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
               <Component id="buscarBtn" min="-2" pref="194" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTextField1" min="-2" pref="455" max="-2" attributes="0"/>
+              <Component id="limpiarBtn" min="-2" pref="156" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="areaBusquedaText" min="-2" pref="455" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="analizarBtn" min="-2" pref="155" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="limpiarBtn" min="-2" pref="156" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -38,7 +38,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jTextField1" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                  <Component id="areaBusquedaText" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                   <Component id="analizarBtn" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
                   <Component id="buscarBtn" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
                   <Component id="limpiarBtn" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
@@ -68,7 +68,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buscarBtnActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="areaBusquedaText">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">

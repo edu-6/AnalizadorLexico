@@ -4,9 +4,13 @@
  */
 package com.mycompany.analizadorlexico.backend.frontend;
 
+import com.mycompany.analizadorlexico.backend.BuscadorCadenas;
 import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
+import com.mycompany.analizadorlexico.backend.exceptions.CampoVacioException;
 import com.mycompany.analizadorlexico.backend.exceptions.JsonNotFoundException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,6 +21,7 @@ public class PanelOpciones extends javax.swing.JPanel {
 
     private AnalizadorFrame analizador;
     private ReportesPanel panelReportes;
+    private BuscadorCadenas buscadorCadenas;
     /**
      * Creates new form ResultadosPanel
      */
@@ -24,6 +29,7 @@ public class PanelOpciones extends javax.swing.JPanel {
         initComponents();
         this.analizador = analizador;
         this.panelReportes = panelReportes;
+        this.buscadorCadenas = new BuscadorCadenas();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,7 +41,7 @@ public class PanelOpciones extends javax.swing.JPanel {
     private void initComponents() {
 
         buscarBtn = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        areaBusquedaText = new javax.swing.JTextField();
         analizarBtn = new javax.swing.JButton();
         limpiarBtn = new javax.swing.JButton();
 
@@ -51,7 +57,7 @@ public class PanelOpciones extends javax.swing.JPanel {
             }
         });
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        areaBusquedaText.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         analizarBtn.setBackground(new java.awt.Color(204, 204, 204));
         analizarBtn.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
@@ -82,18 +88,18 @@ public class PanelOpciones extends javax.swing.JPanel {
                 .addGap(60, 60, 60)
                 .addComponent(buscarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(limpiarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(areaBusquedaText, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(analizarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(limpiarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(areaBusquedaText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(analizarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buscarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(limpiarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -103,6 +109,12 @@ public class PanelOpciones extends javax.swing.JPanel {
 
     private void buscarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarBtnActionPerformed
         
+        String cadenaBuscada = this.areaBusquedaText.getText();
+        try {
+            buscadorCadenas.buscarCadena(cadenaBuscada, analizador.getEditorTextPane());
+        } catch (CampoVacioException ex) {
+            JOptionPane.showMessageDialog(analizador, ex.getMessage());
+        }
     }//GEN-LAST:event_buscarBtnActionPerformed
 
     private void analizarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizarBtnActionPerformed
@@ -116,14 +128,14 @@ public class PanelOpciones extends javax.swing.JPanel {
     }//GEN-LAST:event_analizarBtnActionPerformed
 
     private void limpiarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarBtnActionPerformed
-        // TODO add your handling code here:
+        buscadorCadenas.limpiar(analizador.getEditorTextPane());
     }//GEN-LAST:event_limpiarBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton analizarBtn;
+    private javax.swing.JTextField areaBusquedaText;
     private javax.swing.JButton buscarBtn;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton limpiarBtn;
     // End of variables declaration//GEN-END:variables
 }

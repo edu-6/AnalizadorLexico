@@ -19,6 +19,7 @@ import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -58,6 +59,10 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         this.resultadosPanel = new ResultadosPanel(this);
         this.panelFondo.add(resultadosPanel, BorderLayout.SOUTH);
     }
+    
+    public JTextPane getEditorTextPane(){
+        return this.editorArea.getEditorTextPane();
+    }
 
     private void intentarGuardarCambios() {
         if (gestorArchivos.hayCambiosSinGuardar()) {
@@ -77,7 +82,7 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         AnalizadorLexico analizador = new AnalizadorLexico(simbolos);
         ArrayList<Token> lista = analizador.analizar(this.editorArea.getEditorTextPane().getText());
         for (Token t : lista) {
-            t.selfDescribe();
+            //t.selfDescribe();
         }
         return lista;
     }

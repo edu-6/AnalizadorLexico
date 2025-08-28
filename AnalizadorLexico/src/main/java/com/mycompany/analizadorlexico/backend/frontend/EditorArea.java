@@ -50,6 +50,9 @@ public class EditorArea extends javax.swing.JPanel {
         // ultimos cambios
         this.setPreferredSize(new Dimension(500, 500));
     }
+    
+    
+    
 
     private void registrarCambioEnTexto() {
         this.gestor.setFileIsSaved(false);
@@ -121,6 +124,7 @@ public class EditorArea extends javax.swing.JPanel {
         return this.editorTextPane.getText();
     }
 
+
     private void ocultarBarrasScroll() {
         int h = javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER; // horzintal oculta
         int v = javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER; // vertical oculta
@@ -178,7 +182,8 @@ public class EditorArea extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(ScrollLIneas, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollEditor, javax.swing.GroupLayout.DEFAULT_SIZE, 799, Short.MAX_VALUE))
+                .addComponent(scrollEditor, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
