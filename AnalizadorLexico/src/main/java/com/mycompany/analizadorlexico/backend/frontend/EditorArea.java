@@ -4,10 +4,16 @@
  */
 package com.mycompany.analizadorlexico.backend.frontend;
 
+import com.mycompany.analizadorlexico.backend.AplicadorColores;
 import com.mycompany.analizadorlexico.backend.GestorArchivos;
 import com.mycompany.analizadorlexico.backend.LectorDeArchivos;
+import com.mycompany.analizadorlexico.backend.analisis.tokens.Token;
+import com.mycompany.analizadorlexico.backend.exceptions.JsonNotFoundException;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
@@ -21,11 +27,13 @@ public class EditorArea extends javax.swing.JPanel {
     //Backend
     private GestorArchivos gestor;
     private LectorDeArchivos lector;
+    private AplicadorColores aplicadorColores;
+    private AnalizadorFrame analizadorFrame;
 
     /**
      * Creates new form EditorArea
      */
-    public EditorArea(GestorArchivos gestor, LectorDeArchivos lector) {
+    public EditorArea(GestorArchivos gestor, LectorDeArchivos lector, AnalizadorFrame analizadorFrame) {
         initComponents();
 
         //Backend
@@ -36,32 +44,55 @@ public class EditorArea extends javax.swing.JPanel {
         this.lineaTextPane.setEditable(false);
         ocultarBarrasScroll();
         configurarEventos();
-        
+        this.aplicadorColores = new AplicadorColores();
+        this.analizadorFrame = analizadorFrame;
+
         // ultimos cambios
-        this.setPreferredSize(new Dimension(500,500));
+        this.setPreferredSize(new Dimension(500, 500));
     }
-    
-    private void registrarCambioEnTexto(){
+
+    private void registrarCambioEnTexto() {
         this.gestor.setFileIsSaved(false);
         actualizarNumeroLineas(editorTextPane.getText());
     }
 
-    private  void configurarEventos() {
+    private void configurarEventos() {
         Document doc = editorTextPane.getDocument();
         doc.addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 registrarCambioEnTexto();
+                SwingUtilities.invokeLater(() -> {
+                    try {
+                        pintar();
+                    } catch (JsonNotFoundException f) {
+                        JOptionPane.showMessageDialog(jTextPane1, f.getMessage());
+                    }
+                });
             }
+
             @Override
             public void removeUpdate(DocumentEvent e) {
                 registrarCambioEnTexto();
+                SwingUtilities.invokeLater(() -> {
+                    try {
+                        pintar();
+                    } catch (JsonNotFoundException f) {
+                        JOptionPane.showMessageDialog(jTextPane1, f.getMessage());
+                    }
+                });
             }
+
             @Override
             public void changedUpdate(DocumentEvent de) {
 
             }
         });
+    }
+
+    private void pintar() throws JsonNotFoundException {
+        ArrayList<Token> lista = this.analizadorFrame.analizar();
+        this.aplicadorColores.AplicarColor(editorTextPane, lista);
     }
 
     public void cargarTexto() {
@@ -110,8 +141,6 @@ public class EditorArea extends javax.swing.JPanel {
     public JTextPane getEditorTextPane() {
         return editorTextPane;
     }
-    
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -130,7 +159,7 @@ public class EditorArea extends javax.swing.JPanel {
         lineaTextPane.setFont(new java.awt.Font("Fira Sans", 0, 24)); // NOI18N
         ScrollLIneas.setViewportView(lineaTextPane);
 
-        editorTextPane.setBackground(new java.awt.Color(204, 255, 204));
+        editorTextPane.setBackground(new java.awt.Color(204, 204, 204));
         editorTextPane.setFont(new java.awt.Font("Fira Sans", 0, 24)); // NOI18N
         editorTextPane.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {

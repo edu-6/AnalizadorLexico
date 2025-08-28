@@ -53,7 +53,7 @@ public class AnalizadorFrame extends javax.swing.JFrame {
         this.editorJson = new EditorJsonFile(gestorArchivos);
 
         //Frontend
-        this.editorArea = new EditorArea(gestorArchivos, lectorArchivos);
+        this.editorArea = new EditorArea(gestorArchivos, lectorArchivos,this);
         this.panelFondo.add(editorArea, BorderLayout.CENTER);
         this.resultadosPanel = new ResultadosPanel(this);
         this.panelFondo.add(resultadosPanel, BorderLayout.SOUTH);
